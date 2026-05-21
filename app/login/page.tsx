@@ -19,6 +19,14 @@ export default function LoginPage() {
 
   useEffect(() => {
     async function checkUser() {
+      const adminSession =
+        localStorage.getItem("uniford_admin");
+
+      if (adminSession === "true") {
+        router.push("/admin");
+        return;
+      }
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -47,12 +55,15 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "https://uniford.sa/dashboard",
+        redirectTo:
+          "https://uniford.sa/dashboard",
       },
     });
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(
+    e: React.FormEvent
+  ) {
     e.preventDefault();
 
     setLoading(true);
@@ -60,31 +71,43 @@ export default function LoginPage() {
 
     try {
       if (
-        email === "uniford.edu@gmail.com" &&
+        email.trim().toLowerCase() ===
+          "uniford.edu@gmail.com" &&
         password === "noor6331"
       ) {
+        localStorage.setItem(
+          "uniford_admin",
+          "true"
+        );
+
         localStorage.setItem(
           "uniford_user",
           JSON.stringify({
             name: "UNIFORD ADMIN",
-            email: "uniford.edu@gmail.com",
+            email:
+              "uniford.edu@gmail.com",
             role: "admin",
           })
         );
 
-        router.push("/admin");
+        window.location.href = "/admin";
         return;
       }
 
       if (isLogin) {
         const { data, error } =
-          await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
+          await supabase.auth.signInWithPassword(
+            {
+              email,
+              password,
+            }
+          );
 
         if (error) {
-          setMessage("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+          setMessage(
+            "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+          );
+
           setLoading(false);
           return;
         }
@@ -93,8 +116,8 @@ export default function LoginPage() {
           "uniford_user",
           JSON.stringify({
             name:
-              data.user.user_metadata?.name ||
-              "مستخدم",
+              data.user.user_metadata
+                ?.name || "مستخدم",
             email: data.user.email,
             role: "user",
           })
@@ -115,15 +138,18 @@ export default function LoginPage() {
 
         if (error) {
           setMessage(error.message);
+
           setLoading(false);
           return;
         }
 
-        await supabase.from("profiles").insert({
-          id: data.user?.id,
-          name,
-          email,
-        });
+        await supabase
+          .from("profiles")
+          .insert({
+            id: data.user?.id,
+            name,
+            email,
+          });
 
         localStorage.setItem(
           "uniford_user",
@@ -147,8 +173,6 @@ export default function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-[#f7f9fc] px-6 py-16">
       <div className="w-full max-w-md overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-2xl animate-fadeUp">
         <div className="bg-gradient-to-l from-[#071b3a] to-[#0b2a55] px-8 py-10 text-center text-white">
-          
-
           <h1 className="mt-5 text-4xl font-black">
             {isLogin
               ? "تسجيل الدخول"
@@ -192,7 +216,7 @@ export default function LoginPage() {
               </label>
 
               <input
-                type="text"
+                type="email"
                 value={email}
                 onChange={(e) =>
                   setEmail(e.target.value)
