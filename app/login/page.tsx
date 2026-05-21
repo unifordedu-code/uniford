@@ -47,7 +47,7 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:3000/dashboard",
+        redirectTo: "https://uniford.sa/dashboard",
       },
     });
   }
@@ -59,12 +59,15 @@ export default function LoginPage() {
     setMessage("");
 
     try {
-      if (email === "admin" && password === "noor6331") {
+      if (
+        email === "uniford.edu@gmail.com" &&
+        password === "noor6331"
+      ) {
         localStorage.setItem(
           "uniford_user",
           JSON.stringify({
-            name: "Admin",
-            email: "admin",
+            name: "UNIFORD ADMIN",
+            email: "uniford.edu@gmail.com",
             role: "admin",
           })
         );
@@ -142,9 +145,11 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#f7f9fc] px-6 py-16">
-      <div className="w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
-        <div className="bg-[#071b3a] px-8 py-10 text-center text-white">
-          <h1 className="text-4xl font-black">
+      <div className="w-full max-w-md overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-2xl animate-fadeUp">
+        <div className="bg-gradient-to-l from-[#071b3a] to-[#0b2a55] px-8 py-10 text-center text-white">
+          
+
+          <h1 className="mt-5 text-4xl font-black">
             {isLogin
               ? "تسجيل الدخول"
               : "إنشاء حساب"}
@@ -175,7 +180,7 @@ export default function LoginPage() {
                     setName(e.target.value)
                   }
                   required
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#1877d2] focus:ring-4 focus:ring-[#1877d2]/10"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-black outline-none transition focus:border-[#1877d2] focus:ring-4 focus:ring-[#1877d2]/10"
                   placeholder="أدخل الاسم الكامل"
                 />
               </div>
@@ -187,13 +192,13 @@ export default function LoginPage() {
               </label>
 
               <input
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) =>
                   setEmail(e.target.value)
                 }
                 required
-                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#1877d2] focus:ring-4 focus:ring-[#1877d2]/10"
+                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-black outline-none transition focus:border-[#1877d2] focus:ring-4 focus:ring-[#1877d2]/10"
                 placeholder="أدخل البريد الإلكتروني"
               />
             </div>
@@ -210,7 +215,7 @@ export default function LoginPage() {
                   setPassword(e.target.value)
                 }
                 required
-                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#1877d2] focus:ring-4 focus:ring-[#1877d2]/10"
+                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-black outline-none transition focus:border-[#1877d2] focus:ring-4 focus:ring-[#1877d2]/10"
                 placeholder="أدخل كلمة المرور"
               />
             </div>

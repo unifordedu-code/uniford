@@ -5,10 +5,14 @@ import Footer from "@/components/Footer";
 import EditSaveBar from "@/components/EditSaveBar";
 import FreeElementLayer from "@/components/FreeElementLayer";
 import UniversalEditor from "@/components/UniversalEditor";
+import PageLoader from "@/components/PageLoader";
 
 export const metadata: Metadata = {
-  title: "يوني فورد",
-  description: "منصة تعليمية للمواد الجامعية والماجستير والشهادات المهنية",
+  title: "UNIFORD",
+  description: "منصة تعليمية جامعية ومهنية",
+  icons: {
+    icon: "https://uniford.net/wp-content/uploads/2026/02/WhatsApp-Image-2026-02-24-at-12.03.47-AM-300x292.jpeg",
+  },
 };
 
 export default function RootLayout({
@@ -18,10 +22,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body className="relative bg-[#f7f9fc]" suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className="relative bg-[#f7f9fc] text-[#071b3a]"
+      >
+        <PageLoader />
+
         <Header />
-        {children}
+
+        <div className="page-transition">
+          {children}
+        </div>
+
         <Footer />
+
         <FreeElementLayer />
         <UniversalEditor />
         <EditSaveBar />
